@@ -6,6 +6,7 @@
 #endif // defined(_MSC_VER) && (_MSC_VER >= 1200)
 
 #include "typedef.h"
+#include "timer.h"
 
 namespace core {
 
@@ -19,9 +20,13 @@ namespace core {
 	public:
 		uv_loop_t& getIOService();
 
+		TimerOperation addTimer(uint64_t milliseconds, TimerCallBack handler);
+
 		int run();
+		void stop();
 	private:
 		uv_loop_t io_;
+		TimerManager timerManager_;
 	};
 }
 

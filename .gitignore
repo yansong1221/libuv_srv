@@ -35,3 +35,7 @@
 /msvc/.vs
 /msvc/core/Debug
 /msvc/test/Debug
+/msvc/core/x64
+/msvc/core/Debug
+/msvc/x64
+/msvc/app/Debug

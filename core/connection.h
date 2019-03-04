@@ -11,33 +11,45 @@ namespace core {
 
 	class NetManager;
 
-	class Connection : public std::enable_shared_from_this<Connection>
+	typedef struct 
+	{
+		uv_write_t req;
+		uv_buf_t buf;
+	} write_req_t;
+
+	class Connection
 	{
 	public:
-		Connection(NetManager& mgr, uv_tcp_t* client);
+		Connection(NetManager& netManager, uv_tcp_t* client,bool connect = false);
 		~Connection();
 
 		void close();
-
 		void send(const void* buf, size_t n);
 
 		std::string getUniqueID() const;
+
 	private:
 		void allocBuffer(size_t suggested_size, uv_buf_t* buf);
 		void onRead(ssize_t nread);
 		void onSend(size_t n, int status);
 		void send();
 
-		std::string generateUniqueID();
+		std::string generateUniqueID(bool connect);
 	private:
-		NetManager& mgr_;
+		NetManager& netManager_;
 		uv_tcp_t* client_;
-		char readBuffer_[65535];
 
-		std::string sendBuffer_;
+		static const int MAX_PACK_SIZE = 65535;
+		char tempBuffer_[MAX_PACK_SIZE];
+
+		std::string sendBuffer_,readBuffer_;
+
+		write_req_t writeReq_;
 
 		bool sendding_ = false;
 		std::string uniqueID_;
+
+		
 	};
 }
 
