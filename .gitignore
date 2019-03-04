@@ -30,3 +30,8 @@
 *.exe
 *.out
 *.app
+/msvc/Debug
+/msvc/*.db
+/msvc/.vs
+/msvc/core/Debug
+/msvc/test/Debug
